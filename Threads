@@ -1,0 +1,2 @@
+Threads are smallest units of execution in a program that allow programs to perform multiple tasks concurrently. They enable developers to make better use of CPU and improving 
+overall application performance.
