@@ -1,2 +1,99 @@
 Threads are smallest units of execution in a program that allow programs to perform multiple tasks concurrently. They enable developers to make better use of CPU and improving 
 overall application performance.
+
+Threads can be created in 2 ways:
+
+1. By extending Thread class:
+-----------------------------
+By extending this class, you can override the run() method to define the code that will be executed in a separate thread. 
+
+class MyThread extends Thread { 
+    // Override the run method to define thread behavior 
+    @Override 
+    public void run() { 
+        System.out.println("Thread " + Thread.currentThread().getId() + " is running: " + i); 
+        try { 
+            Thread.sleep(500); // Pause execution for 500 milliseconds 
+        } catch (InterruptedException e) { 
+            System.out.println("Thread interrupted"); 
+        } 
+    } 
+} 
+public class Example { 
+    public static void main(String[] args) { 
+        MyThread thread1 = new MyThread(); // Create thread instance 
+        MyThread thread2 = new MyThread(); // Create another thread instance 
+         
+        thread1.start(); // Start the first thread 
+        thread2.start(); // Start the second thread 
+    } 
+}
+
+
+2. By implementing Runnable interface:
+--------------------------------------
+The Runnable interface in Java represents a task that can be executed by a thread. It has a single method run() that contains the code to be executed. You pass a Runnable 
+object to a Thread to perform a task using run(). This way it separates the task from the thread itself and allowing a class to extend another class while still being 
+runnable in a separate thread. 
+
+class MyRunnable implements Runnable { 
+    // Implement the run method from Runnable interface 
+    @Override 
+    public void run() { 
+        System.out.println("Runnable " + Thread.currentThread().getId() + " is running: " + i); 
+        try { 
+             Thread.sleep(500); // Pause execution for 500 milliseconds 
+         } catch (InterruptedException e) { 
+             System.out.println("Thread interrupted"); 
+         }  
+    } 
+} 
+public class Example { 
+    public static void main(String[] args) { 
+        MyRunnable runnable = new MyRunnable(); // Create runnable instance        
+        Thread thread1 = new Thread(runnable); // Create thread with runnable 
+        Thread thread2 = new Thread(runnable); // Create another thread with same runnable 
+         
+        thread1.start(); // Start the first thread 
+        thread2.start(); // Start the second thread 
+    } 
+}
+
+
+
+
+Process vs Thread:
+------------------
+1. Definition
+Process: An independent program in execution.
+Thread: A lightweight unit of execution within a process.
+
+2. Memory
+Process: Has its own separate memory space.
+Thread: Shares memory with other threads in the same process.
+
+3. Communication
+Process: Communication is complex and done via Inter-process Communication (i.e., pipes, sockets, MQ).
+Thread: Communication is simple as threads share the same memory.
+
+4. Overhead
+Process: Higher overhead; slower to create and manage.
+Thread: Lower overhead; faster creation and context switching.
+
+5. Crash Impact
+Process: One crashing process doesn't affect others.
+Thread: One thread crashing can bring down the entire process.
+
+
+
+Use Processes When: 
+You need strong isolation between different parts of an application 
+Running completely independent tasks 
+Leveraging multiple CPU cores for separate computational tasks 
+Examples :  Browsers like Chrome run each tab as a separate process to ensure one crashing tab doesn’t affect others. 
+
+Use Threads When: 
+You need to perform multiple tasks within the same application concurrently
+Tasks need to share common data quickly 
+You want to improve responsiveness and performance of a single application 
+Examples : In a text editor like Microsoft Word, multiple threads handle different tasks — one thread checks spelling and grammar, another auto-saves the document.
